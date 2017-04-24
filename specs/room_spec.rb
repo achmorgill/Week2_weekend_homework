@@ -15,12 +15,12 @@ class TestRoom < MiniTest::Test
     @guest2 = Guest.new("Freddy", "Bohemian Rhapsody",10)
     @guest3 = Guest.new("Prince", "Purple Rain", 20)
     @guest4 = Guest.new("Michael", "Billy Jean", 30)
-    @guest5 = Guest.new("Amy", "Valerie", 20)
+    @guest5 = Guest.new("Bert", "Valerie", 20)
     @guest6 = Guest.new("Ziggy", "Ashes to Ashes", 100)
     
-    @Blues_room = Room.new("Blues_room",4)
-    @Jazz_room = Room.new("Jazz_room",5)
-    @Pop_room = Room.new("Pop_room",6)
+    @Blues_room = Room.new("Blues_room",4,25)
+    @Jazz_room = Room.new("Jazz_room",5,30)
+    @Pop_room = Room.new("Pop_room",6,40)
 #songs list can be predefined or selected by the guest  - this would be done elsewhere
 @blues_song_list = [@song1,@song2, @song3, @song4, @song5]
 @song1 = Song.new("Ain't No Sunshine", "Bill Withers")
@@ -121,21 +121,36 @@ def test_move_waiting_guest_to_room
 
 end
 
-# def test_add_guests_favourite_song_to_room_play_list
-#   @room.add_song_to_song_list(@song6)
-#   @room.add_song_to_song_list(@song7)
-#   @room.add_song_to_song_list(@song8)
-#   @room.add_song_to_song_list(@song9)
-#   @room.add_song_to_song_list(@song10)
+def test_guest_fav_song_against_playlist_exists
+  @room.add_song_to_song_list(@song6)
+  @room.add_song_to_song_list(@song7)
+  @room.add_song_to_song_list(@song8)
+  @room.add_song_to_song_list(@song9)
+  @room.add_song_to_song_list(@song10)
 
-#   @room.add_favourite_song_to_song_list(@guest5)
-#   assert_equal(5,@room.song_list.size)
-#   # assert_equal(@guest1.favourite_song, @room.song_list[0])
-# end
-def test_check_the_guest_has_money_to_pay
-  @room.has_the_guest_enough_money_to_pay(@guest1)
-  assert_equal("True",@guest.cost)
+  fav_song_found = @room.add_favourite_song_to_song_list(@guest5)
+  assert_equal(5,@room.song_list.size)
+  assert_equal("WOOHOO",fav_song_found)
+  
 end
+
+def test_guest_fav_song_against_playlist_addit
+  @room.add_song_to_song_list(@song1)
+  @room.add_song_to_song_list(@song2)
+  @room.add_song_to_song_list(@song3)
+  @room.add_song_to_song_list(@song4)
+  @room.add_song_to_song_list(@song5)
+
+  @room.add_favourite_song_to_song_list(@guest5)
+  assert_equal(6,@room.song_list.size)
+  
+end
+
+def test_check_the_guest_has_money_to_pay
+  can_guest_pay = @room.has_the_guest_the_entry_fee(@guest1)
+  assert_equal(true,can_guest_pay)
+end
+
 end
 
 
