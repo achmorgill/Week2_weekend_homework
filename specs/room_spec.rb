@@ -142,6 +142,7 @@ def test_guest_fav_song_against_playlist_addit
   @room.add_song_to_song_list(@song5)
 
   @room.add_favourite_song_to_song_list(@guest5)
+
   assert_equal(6,@room.song_list.size)
   
 end
